@@ -112,5 +112,5 @@ void sendData(float value,float value2,float value3,float value4,float value5,fl
   Serial.println("closing connection");
   Serial.println("==========");
   Serial.println();
-
+ client.stop();
 } 
