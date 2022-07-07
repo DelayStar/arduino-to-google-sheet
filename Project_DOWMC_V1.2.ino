@@ -102,11 +102,11 @@ void sendData(float value,float value2,float value3,float value4,float value5,fl
     }
   }
   String line = client.readStringUntil('\n');
-//   if (line.startsWith("{\"state\":\"success\"")) {
-//    Serial.println("esp8266/Arduino CI successfull!");
-//  } else {
-//    Serial.println("esp8266/Arduino CI has failed");
-//  }
+   if (line.startsWith("{\"state\":\"success\"")) {
+    Serial.println("esp8266/Arduino CI successfull!");
+  } else {
+    Serial.println("esp8266/Arduino CI has failed");
+  }
   Serial.print("reply was : ");
   Serial.println(line);
   Serial.println("closing connection");
