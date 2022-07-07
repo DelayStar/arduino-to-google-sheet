@@ -1,0 +1,56 @@
+function doGet(e) { 
+  Logger.log( JSON.stringify(e) );
+  var result = 'Ok';
+  if (e.parameter == 'undefined') {
+    result = 'No Parameters';
+  }
+  else {
+    var sheet_id = '1O8bkBxAOyWUD5G6HXdpqPvuFLR5J8iAwtgGoNTeLEbI'; 	// Spreadsheet ID
+    var sheet = SpreadsheetApp.openById(sheet_id).getActiveSheet();
+    var newRow = sheet.getLastRow() + 1;						
+    var rowData = [];
+    var Curr_Date = new Date();
+    rowData[0] = Curr_Date; // Date in column A
+    var Curr_Time = Utilities.formatDate(Curr_Date, "Asia/Bangkok", 'HH:mm:ss');
+    rowData[1] = Curr_Time; // Time in column B
+    for (var param in e.parameter) {
+      Logger.log('In for loop, param=' + param);
+      var value = stripQuotes(e.parameter[param]);
+      Logger.log(param + ':' + e.parameter[param]);
+      switch (param) {
+        case 'temp':
+          rowData[2] = value; // Temperature in column C
+          result = 'temp Written on column C'; 
+          break;
+        case 'EC':
+          rowData[3] = value; // EC in column D
+          result = 'EC Written on column D'; 
+          break;
+        case 'PH':
+          rowData[4] = value; // PH in column E
+          result = 'PH Written on column E'; 
+          break;
+        case 'P1':
+          rowData[5] = value; // PUMP1 in column F
+          result = 'PUMP1 Written on column F'; 
+          break;
+        case 'P2':
+          rowData[6] = value; // PUMP2 in column G
+          result = 'PUMP2 Written on column G'; 
+          break;
+        case 'P3':
+          rowData[7] = value; // PUMP3 in column H
+          result = 'PUMP3 Written on column H'; 
+          break;
+      }
+    }
+    Logger.log(JSON.stringify(rowData));
+    var newRange = sheet.getRange(newRow, 1, 1, rowData.length);
+    newRange.setValues([rowData]);
+  }
+  return ContentService.createTextOutput(result);
+}
+function stripQuotes( value ) {
+  return value.replace(/^["']|['"]$/g, "");
+}
+
